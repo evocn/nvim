@@ -1,0 +1,126 @@
+print("Alex's Neovim!")
+
+-- Defaults
+vim.opt.title = true
+vim.opt.autochdir = true
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.wrap = false
+
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+
+vim.opt.smartindent = true
+
+vim.opt.swapfile = false
+vim.opt.backup = false
+
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
+-- No comment continuation!
+vim.api.nvim_create_autocmd('BufWinEnter', { command = 'set formatoptions-=cro', })
+
+vim.opt.statusline = ' %f %y%=%4l/%L [%c] '
+
+-- Remaps
+vim.g.mapleader = ','
+vim.keymap.set('i', 'jk', '<Esc>')
+vim.keymap.set('n', '<Space>', 'viw')
+
+vim.keymap.set({'n', 'v'}, 'H', '^')
+vim.keymap.set({'n', 'v'}, 'L', '$')
+vim.keymap.set('n', 'J', '<C-f>')
+vim.keymap.set('n', 'K', '<C-b>')
+
+vim.keymap.set('n', '<C-j>', ':tabprevious<cr>')
+vim.keymap.set('n', '<C-k>', ':tabnext<cr>')
+vim.keymap.set('n', '<C-h>', '<C-w>h')
+vim.keymap.set('n', '<C-l>', '<C-w>l')
+
+vim.keymap.set('n', '<leader>e', ':tabe $MYVIMRC<cr>')
+vim.keymap.set('n', '<leader>r', ':restart<cr>')
+
+-- Plugins
+
+-- lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+    if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({
+            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+            { out, "WarningMsg" },
+            { "\nPress any key to exit..." },
+        }, true, {})
+        vim.fn.getchar()
+        os.exit(1)
+    end
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup({
+
+{ -- Fuzzy Finder
+    'nvim-telescope/telescope.nvim',
+    event = 'VimEnter',
+    dependencies = {
+        'nvim-lua/plenary.nvim',
+        {
+            'nvim-telescope/telescope-fzf-native.nvim',
+            build = 'make',
+            cond = function()
+                return vim.fn.executable 'make' == 1
+            end,
+        },
+        {
+            'nvim-telescope/telescope-ui-select.nvim'
+        },
+    },
+    config = function()
+        require('telescope').setup {
+            pickers = {
+                live_grep = {
+                    search_dirs = {
+                        vim.fn.getcwd(),
+                        'C:/jai/modules',
+                        'C:/Users/alexa/Home/Code/tavern',
+                    },
+                },
+            },
+            extensions = {
+                ['ui-select'] = {
+                    require('telescope.themes').get_dropdown(),
+                },
+            },
+        }
+
+        -- Enable Telescope extensions if they are installed
+        pcall(require('telescope').load_extension, 'fzf')
+        pcall(require('telescope').load_extension, 'ui-select')
+
+        local builtin = require 'telescope.builtin'
+        vim.keymap.set('n', '<leader>sf', builtin.find_files,   { desc = '[S]earch [F]iles' })
+        vim.keymap.set('n', '<leader>sw', builtin.grep_string,  { desc = '[S]earch current [W]ord' })
+        vim.keymap.set('n', '<leader>sg', builtin.live_grep,    { desc = '[S]earch by [G]rep' })
+        vim.keymap.set('n', '<leader>sr', builtin.resume,       { desc = '[S]earch [R]esume' })
+        vim.keymap.set('n', '<leader>s.', builtin.oldfiles,     { desc = '[S]earch Recent Files ("." for repeat)' })
+    end,
+},
+
+{ -- Jai Syntax
+    'rluba/jai.vim',
+},
+
+{ -- Colorscheme
+    'iibe/gruvbox-high-contrast',
+},
+
+}) -- lazy
+
+vim.cmd.colorscheme 'gruvbox-high-contrast'
