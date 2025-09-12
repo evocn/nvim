@@ -83,15 +83,20 @@ require("lazy").setup({
         },
     },
     config = function()
+        local standard_search_dirs = {
+            vim.fn.getcwd(),
+            'C:/jai/modules',
+            'C:/Users/alexa/Home/Code/tavern',
+        },
+
         require('telescope').setup {
             pickers = {
                 live_grep = {
-                    search_dirs = {
-                        vim.fn.getcwd(),
-                        'C:/jai/modules',
-                        'C:/Users/alexa/Home/Code/tavern',
-                    },
+                    search_dirs = standard_search_dirs
                 },
+                find_files = {
+                    search_dirs = standard_search_dirs
+                }
             },
             extensions = {
                 ['ui-select'] = {
@@ -105,11 +110,9 @@ require("lazy").setup({
         pcall(require('telescope').load_extension, 'ui-select')
 
         local builtin = require 'telescope.builtin'
-        vim.keymap.set('n', '<leader>sf', builtin.find_files,   { desc = '[S]earch [F]iles' })
-        vim.keymap.set('n', '<leader>sw', builtin.grep_string,  { desc = '[S]earch current [W]ord' })
-        vim.keymap.set('n', '<leader>sg', builtin.live_grep,    { desc = '[S]earch by [G]rep' })
-        vim.keymap.set('n', '<leader>sr', builtin.resume,       { desc = '[S]earch [R]esume' })
-        vim.keymap.set('n', '<leader>s.', builtin.oldfiles,     { desc = '[S]earch Recent Files ("." for repeat)' })
+        vim.keymap.set('n', '<leader>f', builtin.find_files,   { desc = '[S]earch [F]iles' })
+        vim.keymap.set('n', '<leader>g', builtin.live_grep,    { desc = '[S]earch by [G]rep' })
+        vim.keymap.set('n', '<leader>h', builtin.resume,       { desc = '[S]earch [R]esume' })
     end,
 },
 
