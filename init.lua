@@ -27,6 +27,25 @@ vim.api.nvim_create_autocmd('BufWinEnter', { command = 'set formatoptions-=cro',
 
 vim.opt.statusline = ' %f %y%=%4l/%L [%c] '
 
+function _G.get_tabline()
+  local s = ""
+  for tabnr = 1, vim.fn.tabpagenr('$') do
+    local winnr = vim.fn.tabpagewinnr(tabnr)
+    local buflist = vim.fn.tabpagebuflist(tabnr)[winnr]
+    local bufname = vim.fn.bufname(buflist)
+    local bufname_short = vim.fn.fnamemodify(bufname, ":t")
+    if tabnr == vim.fn.tabpagenr() then
+      s = s .. "%#TabLineSel#" .. " " .. bufname_short .. " "
+    else
+      s = s .. "%#TabLine#" .. " " .. bufname_short .. " "
+    end
+  end
+  s = s .. "%#TabLineFill#"
+  return s
+end
+
+vim.opt.tabline = "%!v:lua.get_tabline()"
+
 -- Remaps
 vim.g.mapleader = ','
 vim.keymap.set('i', 'jk', '<Esc>')
@@ -86,7 +105,7 @@ require("lazy").setup({
         local standard_search_dirs = {
             vim.fn.getcwd(),
             'C:/jai/modules',
-            'C:/Users/alexa/Home/Code/tavern',
+            'C:/Users/alexa/Home/Code/tavern/source',
         },
 
         require('telescope').setup {
