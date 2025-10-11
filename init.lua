@@ -62,6 +62,7 @@ vim.keymap.set('n', '<C-l>', '<C-w>l')
 
 vim.keymap.set('n', '<leader>e', ':tabe $MYVIMRC<cr>')
 vim.keymap.set('n', '<leader>r', ':restart<cr>')
+vim.keymap.set('n', '<leader>t', '<C-w><C-]><C-w>T')
 
 -- Plugins
 
@@ -104,10 +105,10 @@ require("lazy").setup({
         require('telescope').setup {
             pickers = {
                 live_grep = {
-                    search_dirs = { 'C:/jai/modules', 'C:/Users/alexa/Home/Code/tavern/source' }
+                    search_dirs = { 'C:/Users/alexa/Home/Code/tavern/source' }
                 },
                 find_files = {
-                    search_dirs = { 'C:/jai/modules', 'C:/Users/alexa/Home/Code/tavern/source' }
+                    search_dirs = { 'C:/Users/alexa/Home/Code/tavern/source' }
                 }
             },
             extensions = {
@@ -132,9 +133,9 @@ require("lazy").setup({
 },
 
 { -- Colorscheme
-    'iibe/gruvbox-high-contrast',
+    'morhetz/gruvbox',
 },
 
 }) -- lazy
 
-vim.cmd.colorscheme 'gruvbox-high-contrast'
+vim.cmd.colorscheme 'gruvbox'
