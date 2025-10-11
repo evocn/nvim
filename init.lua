@@ -64,7 +64,9 @@ vim.keymap.set('n', '<leader>e', ':tabe $MYVIMRC<cr>')
 vim.keymap.set('n', '<leader>r', ':restart<cr>')
 vim.keymap.set('n', '<leader>t', '<C-w><C-]><C-w>T')
 
-vim.keymap.set('v', '<leader>c', '"+y')
+vim.keymap.set('v', '<C-c>', '"+y')
+
+vim.keymap.set({'n', 'v'}, 'q', '<nop>')
 
 -- Plugins
 
