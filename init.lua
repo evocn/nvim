@@ -71,6 +71,8 @@ vim.keymap.set('n', '<leader>t', '<C-w><C-]><C-w>T')
 vim.keymap.set('v', '<C-c>', '"+y')
 vim.keymap.set({'n', 'v'}, '<C-v>', '"+p')
 
+vim.keymap.set({'n', 'v'}, 'q', '<nop>')
+
 -- Plugins
 
 -- lazy.nvim
