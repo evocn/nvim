@@ -1,6 +1,3 @@
-print("Alex's Neovim!")
-
--- Defaults
 vim.opt.title = true
 vim.opt.autochdir = true
 vim.opt.number = true
@@ -21,8 +18,15 @@ vim.opt.incsearch = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
+vim.opt.foldmethod = 'syntax'
+vim.opt.foldnestmax = 1
+vim.opt.foldlevelstart = 99
+vim.opt.foldlevel = 0
+
 -- No comment continuation!
 vim.api.nvim_create_autocmd('BufWinEnter', { command = 'set formatoptions-=cro', })
+
+vim.opt.tags = { './tags;', './source/tags;', './source/tags-modules;' }
 
 vim.opt.statusline = ' %f %y%=%4l/%L [%c] '
 
@@ -64,7 +68,8 @@ vim.keymap.set('n', '<leader>e', ':tabe $MYVIMRC<cr>')
 vim.keymap.set('n', '<leader>r', ':restart<cr>')
 vim.keymap.set('n', '<leader>t', '<C-w><C-]><C-w>T')
 
-vim.keymap.set('v', '<leader>c', '"+y')
+vim.keymap.set('v', '<C-c>', '"+y')
+vim.keymap.set({'n', 'v'}, '<C-v>', '"+p')
 
 -- Plugins
 
@@ -107,10 +112,20 @@ require("lazy").setup({
         require('telescope').setup {
             pickers = {
                 live_grep = {
-                    search_dirs = { 'C:/Users/alexa/Home/Code/tavern/source' }
+                    search_dirs = {
+                        'C:/Users/alexa/Home/Code/tavern/source',
+                        'C:/Users/alexa/Home/Code/dayne/source',
+                        'C:/jai/modules',
+                        'C:/jai/how_to',
+                    }
                 },
                 find_files = {
-                    search_dirs = { 'C:/Users/alexa/Home/Code/tavern/source' }
+                    search_dirs = {
+                        'C:/Users/alexa/Home/Code/tavern/source',
+                        'C:/Users/alexa/Home/Code/dayne/source',
+                        'C:/jai/modules',
+                        'C:/jai/how_to',
+                    }
                 }
             },
             extensions = {
